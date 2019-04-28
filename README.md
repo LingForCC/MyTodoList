@@ -1,5 +1,9 @@
 # MyTodoList
 
+
+#### Server Pipeline
+ [![Build Status](https://dev.azure.com/LingForCC/MyTodoList/_apis/build/status/MyTodoList-Server-CI?branchName=master)](https://dev.azure.com/LingForCC/MyTodoList/_build/latest?definitionId=1&branchName=master)
+
 # Idea
 
 We have got tons of Todo Apps in the marketplace. Most of them are built based on [GTD](https://gettingthingsdone.com) methodology. Though all of these Todo Apps are great tools, they still have got following weak points.
