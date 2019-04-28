@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Core
 {
     public class Dependency
@@ -6,5 +7,7 @@ namespace Core
         public Dependency()
         {
         }
+
+
     }
 }

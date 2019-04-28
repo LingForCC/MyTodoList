@@ -11,3 +11,10 @@ steps:
     command: build
     projects: '**/*.csproj'
     arguments: '--configuration Release' # Update this to match your need
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '**/*Test/*.csproj'
+    arguments: '--configuration Release'
