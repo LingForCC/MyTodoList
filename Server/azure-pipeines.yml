@@ -19,11 +19,10 @@ steps:
     projects: '**/API.csproj'
     arguments: '--configuration Release' # Update this to match your need
 
-- task: DotNetCoreCLI@2
+- task: AzureRmWebAppDeployment@4
   inputs:
-    command: 'publish'
-    publishWebProjects: True
-    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    ConnectedServiceName: 'Free Trial(8f4e1de8-c5a5-4951-8a11-a4bd40eced16)'
+    WebAppKind: 'apiApp'
+    WebAppName: 'mmtodo'
 
 
