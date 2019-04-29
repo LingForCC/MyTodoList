@@ -5,13 +5,23 @@ namespace Core
 {
     public class Task
     {
-        private List<Dependency> _dependencies;
+
+        #region Private Fields
+
+        private List<IDependency> _dependencies;
+
+        #endregion
+
+        #region Constructor
 
         public Task()
         {
-            _dependencies = new List<Dependency>();
+            _dependencies = new List<IDependency>();
         }
 
+        #endregion
+
+        #region Properties
 
         public string Name
         {
@@ -28,10 +38,22 @@ namespace Core
         public bool IsCompleted
         {
             get;
-            set;
+            private set;
         }
 
-        public void AddDependency(Dependency dependency)
+        #endregion
+
+        public void Complete()
+        {
+            IsCompleted = true;
+        }
+
+        public void UnComplete()
+        {
+            IsCompleted = false;
+        }
+
+        public void AddDependency(IDependency dependency)
         {
             if(null != dependency)
             {
