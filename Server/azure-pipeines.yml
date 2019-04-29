@@ -19,6 +19,7 @@ steps:
     projects: '**/API.csproj'
     arguments: '--configuration Release' # Update this to match your need
 
+
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectedServiceName: 'Free Trial(8f4e1de8-c5a5-4951-8a11-a4bd40eced16)'
