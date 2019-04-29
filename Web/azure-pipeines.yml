@@ -5,8 +5,10 @@ pool:
   vmImage: 'ubuntu-16.04' # examples of other options: 'macOS-10.13', 'vs2017-win2016'
 
 steps:
-- script: cd '$(Build.SourcesDirectory)/Web'
-- script: yarn install
+- task: CmdLine@2
+  inputs:
+    script: 'yarn install'
+    workingDirectory: '$(Build.SourcesDirectory)/Web'
 
 - task: Npm@1
   inputs:
