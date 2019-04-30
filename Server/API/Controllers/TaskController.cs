@@ -48,8 +48,12 @@ namespace API.Controllers
 
                 _taskRepository.Add(task);
 
-                // should response the task details?
+                // should we response the task details?
                 return Ok("task is added successfully");
+            }
+            catch (TaskException taskEx)
+            {
+                return BadRequest(taskEx.Message);
             }
             catch
             {

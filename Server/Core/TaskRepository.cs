@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Core
 {
@@ -12,6 +13,16 @@ namespace Core
             if (null == task)
             {
                 throw new ArgumentNullException(nameof(task));
+            }
+
+            if (task.Name.Trim() == string.Empty)
+            {
+                throw new TaskException("invalid task name.");
+            }
+
+            if (!Regex.IsMatch(task.Name, Ultils.Regessions.TASK_NAME_REG))
+            {
+                throw new TaskException("invalid task name.");
             }
 
             _store.Add(task);

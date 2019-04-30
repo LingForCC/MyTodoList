@@ -17,7 +17,7 @@ namespace CoreTest
         {
             Task task = new Task()
             {
-                Id = 1,
+                Id = "00101001",
                 Name = "test task",
             };
 
@@ -30,5 +30,36 @@ namespace CoreTest
             Assert.Equal(repo.FindById(task.Id).Name, task.Name);
         }
 
+        [Fact]
+        public void TestAddTaskWithInvalidEmptyName()
+        {
+            Task task = new Task()
+            {
+                Id = "00101001",
+                Name = " ",
+            };
+
+            // TODO:
+            // Use moq
+            ITaskRepository repo = new TaskRepository();
+
+            Assert.Throws<TaskException>(() => repo.Add(task));
+        }
+
+        [Fact]
+        public void TestAddTaskWithInvalidCharacterName()
+        {
+            Task task = new Task()
+            {
+                Id = "00101001",
+                Name = "Buy Books !",
+            };
+
+            // TODO:
+            // Use moq
+            ITaskRepository repo = new TaskRepository();
+
+            Assert.Throws<TaskException>(() => repo.Add(task));
+        }
     }
 }

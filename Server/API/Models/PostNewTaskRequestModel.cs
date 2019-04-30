@@ -6,7 +6,7 @@ namespace API.Models
     {
         [Required(ErrorMessage = "invalid task name")]
         [MaxLength(300, ErrorMessage = "task name should be less than 300 length.")]
-        [RegularExpression("^[0-9a-zA-Z ]*$", ErrorMessage = "invalid task name")]
+        [RegularExpression(Core.Ultils.Regessions.TASK_NAME_REG, ErrorMessage = "invalid task name")]
         public string Name { get; set; }
 
         public string Description { get; set; }
