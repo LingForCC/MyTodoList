@@ -15,3 +15,11 @@ steps:
     command: 'custom'
     workingDir: '$(Build.SourcesDirectory)/Web'
     customCommand: 'run build'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Free Trial(8f4e1de8-c5a5-4951-8a11-a4bd40eced16)'
+    appType: 'webApp'
+    appName: 'mindmaptodo-win-front-staging'
+    package: '$(Build.SourcesDirectory)/Web/build'
+
