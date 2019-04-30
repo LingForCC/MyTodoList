@@ -23,7 +23,6 @@ namespace API.Controllers
             return id.ToString();
         }
 
-        // PUT api/values/5
         [HttpPost("{id}")]
         public void AddTask(int id, [FromBody] Core.Task task)
         {
