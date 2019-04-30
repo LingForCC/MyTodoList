@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Core;
 
 namespace API.Controllers
@@ -11,6 +7,13 @@ namespace API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        private readonly ITaskRepository _taskRepository;
+
+        public TaskController(ITaskRepository taskRepository)
+        {
+            _taskRepository = taskRepository;
+        }
+
         [HttpGet]
         public ActionResult<string> GetTask()
         {
@@ -20,14 +23,21 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> GetTaskId(int id)
         {
-            return id.ToString();
+            var task = _taskRepository.FindById(id);
+            return task?.Name;
         }
 
         // PUT api/values/5
         [HttpPost("{id}")]
-        public void AddTask(int id, [FromBody] Core.Task task)
+        public ActionResult AddTask(int id, [FromBody] Core.Task task)
         {
-            //do nothing for now
+            if (task == null)
+            {
+                return BadRequest("unexpected error. retry later.");
+            }
+
+            _taskRepository.Add(task);
+            return Ok("task is added successfully");
         }
 
     }

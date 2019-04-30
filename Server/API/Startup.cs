@@ -20,7 +20,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         { 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            DI.Registery.Register(services);
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
