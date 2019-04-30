@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Core;
 using System.ComponentModel.DataAnnotations;
+using API.Models;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -9,10 +11,12 @@ namespace API.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly IMapper _mapper;
 
-        public TaskController(ITaskRepository taskRepository)
+        public TaskController(ITaskRepository taskRepository, IMapper mapper)
         {
             _taskRepository = taskRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,22 +26,25 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<string> GetTaskId(int id)
+        public ActionResult<string> GetTaskId(string id)
         {
             var task = _taskRepository.FindById(id);
             return task?.Name;
         }
 
-        // PUT api/values/5
         [HttpPost]
-        public ActionResult AddTask([FromBody][Required] Core.Task task)
+        public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            if (task.Name == "!@#$%")
+            try
             {
-                return BadRequest("invalid task name");
+                var task = _mapper.Map<Task>(request);
+                _taskRepository.Add(task);
+            }
+            catch
+            {
+                return BadRequest("unexpected error. retry later.");
             }
 
-            _taskRepository.Add(task);
             return Ok("task is added successfully");
         }
 

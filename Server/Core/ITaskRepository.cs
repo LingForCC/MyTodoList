@@ -4,6 +4,6 @@
     {
         void Add(Task task);
 
-        Task FindById(int id);
+        Task FindById(string id);
     }
 }

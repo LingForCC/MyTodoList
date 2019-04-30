@@ -1,12 +1,14 @@
 ﻿using Core;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace API.DI
+namespace API.Config
 {
-    public class Registery
+    public class DI
     {
         public static void Register(IServiceCollection services)
         {
+            Config.AutoMapping.Setup(services);
+
             services.AddScoped<ITaskRepository, TaskRepository>();
         }
     }

@@ -14,7 +14,7 @@ namespace API.Filters
                 var errors = context.ModelState.Select(it => new UnifyExceptionError
                 {
                     Field = it.Key,
-                    Description = string.Join(",", it.Value.Errors.Select(e => e.ErrorMessage))
+                    Description = it.Value.Errors.FirstOrDefault().ErrorMessage,
                 });
 
                 context.Result = new ObjectResult(errors)

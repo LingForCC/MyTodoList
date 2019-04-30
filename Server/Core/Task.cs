@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Core
 {
@@ -24,7 +23,6 @@ namespace Core
 
         #region Properties
 
-        [Required(ErrorMessage = "Invalid task name.")]
         public string Name
         {
             get;
@@ -43,7 +41,7 @@ namespace Core
             private set;
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         #endregion
 

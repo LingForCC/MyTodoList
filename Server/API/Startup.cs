@@ -30,7 +30,8 @@ namespace API
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            DI.Registery.Register(services);
+            Config.DI.Register(services);
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
