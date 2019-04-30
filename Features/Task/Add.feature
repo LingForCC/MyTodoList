@@ -1,16 +1,18 @@
 Feature: Add Task
     Scenario Outline: Add Task 
     When user tries to add a task with <name>
-    And <unexpected error>
     Then user should see <message>
     
     Examples:
-    | name  | unexpected error | message           |
-    | space | no | invalid task name |
-    | ab12  | no | task is added successfully |
-    | !@#$% | no | invalid task name |
-    | space | yes | unexpected error. retry later. |
-    | cd34  | yes | unexpected error. retry later. |
+    | name  | message           |
+    | space | invalid task name |
+    | ab12  | task is added successfully |
+    | !@#$% | invalid task name |
 
+
+    Scenario Outline: Add Task failed with unexpected error
+    When user tries to add a task
+    And unexpected error happens
+    Then user should see 'unexpected error. retry later.'
 
 
