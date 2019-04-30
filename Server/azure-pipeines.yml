@@ -20,12 +20,12 @@ steps:
     arguments: '--configuration Release' # Update this to match your need
 
 - task: DotNetCoreCLI@2
+  displayName: Publish
   inputs:
     command: 'publish'
     publishWebProjects: false
     arguments: --output $(Build.ArtifactStagingDirectory)
-    projects: 'API.csproj'
-    workingDirectory: '$(Build.SourcesDirectory)/Server/API'
+    projects: $(Build.SourcesDirectory)/Server/API/API.csproj
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
