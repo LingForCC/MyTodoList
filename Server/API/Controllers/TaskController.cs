@@ -23,8 +23,8 @@ namespace API.Controllers
             return id.ToString();
         }
 
-        [HttpPost("{id}")]
-        public void AddTask(int id, [FromBody] Core.Task task)
+        [HttpPost]
+        public void AddTask([FromBody] Core.Task task)
         {
             //do nothing for now
         }
