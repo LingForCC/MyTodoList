@@ -11,6 +11,11 @@ namespace API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        [HttpGet]
+        public ActionResult<string> GetTask()
+        {
+            return "Your First Task";
+        }
 
         // PUT api/values/5
         [HttpPost("{id}")]
