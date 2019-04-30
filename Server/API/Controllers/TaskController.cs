@@ -47,13 +47,14 @@ namespace API.Controllers
                 task.Id = NUlid.Ulid.NewUlid().ToString();
 
                 _taskRepository.Add(task);
+
+                // should response the task details?
+                return Ok("task is added successfully");
             }
             catch
             {
                 return BadRequest("unexpected error. retry later.");
             }
-
-            return Ok("task is added successfully");
         }
 
     }
