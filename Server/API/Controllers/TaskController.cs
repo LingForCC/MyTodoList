@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -28,12 +29,12 @@ namespace API.Controllers
         }
 
         // PUT api/values/5
-        [HttpPost("{id}")]
-        public ActionResult AddTask(int id, [FromBody] Core.Task task)
+        [HttpPost]
+        public ActionResult AddTask([FromBody][Required] Core.Task task)
         {
-            if (task == null)
+            if (task.Name == "!@#$%")
             {
-                return BadRequest("unexpected error. retry later.");
+                return BadRequest("invalid task name");
             }
 
             _taskRepository.Add(task);
