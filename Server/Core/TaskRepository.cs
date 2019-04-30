@@ -15,7 +15,7 @@ namespace Core
                 throw new ArgumentNullException(nameof(task));
             }
 
-            if (task.Name.Trim() == string.Empty)
+            if (string.IsNullOrWhiteSpace(task.Name))
             {
                 throw new TaskException("invalid task name.");
             }
