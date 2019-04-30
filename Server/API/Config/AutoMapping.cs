@@ -13,6 +13,7 @@ namespace API.Config
             Mapper.Initialize(config =>
             {
                 config.CreateMap<PostNewTaskRequestModel, Task>().ReverseMap();
+                config.CreateMap<Task, GetTaskDetailsModel>();
             });
 
             serviceCollection.AddSingleton(Mapper.Instance);

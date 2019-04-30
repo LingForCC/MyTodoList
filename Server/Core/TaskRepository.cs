@@ -17,6 +17,11 @@ namespace Core
             _store.Add(task);
         }
 
+        public IEnumerable<Task> FindAll()
+        {
+            return _store;
+        }
+
         public Task FindById(string id)
         {
             return _store.Find(it => it.Id == id);

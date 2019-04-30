@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Core;
-using System.ComponentModel.DataAnnotations;
-using API.Models;
+﻿using API.Models;
 using AutoMapper;
+using Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -20,16 +21,21 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string> GetTask()
+        public ActionResult<IEnumerable<GetTaskDetailsModel>> GetTasks()
         {
-            return "Your First Task";
+            return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskRepository.FindAll()));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<string> GetTaskId(string id)
+        public ActionResult<GetTaskDetailsModel> GetTaskId(string id)
         {
             var task = _taskRepository.FindById(id);
-            return task?.Name;
+            if (task == null)
+            {
+                return NotFound("task not found");
+            }
+
+            return _mapper.Map<GetTaskDetailsModel>(task);
         }
 
         [HttpPost]
@@ -38,6 +44,8 @@ namespace API.Controllers
             try
             {
                 var task = _mapper.Map<Task>(request);
+                task.Id = NUlid.Ulid.NewUlid().ToString();
+
                 _taskRepository.Add(task);
             }
             catch
