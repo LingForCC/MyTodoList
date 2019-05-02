@@ -1,20 +1,24 @@
 import ViewModule, { state, action, computed } from '../../lib/baseViewModule';
-import 'whatwg-fetch';
 
 export default class Todos extends ViewModule {
   	@state todos = [];
 
+		constructor(sdk) {
+			super();
+			this.sdk = sdk;
+		}
+		
   	@action
   	add(text, state) {
-    	this.getRemoteData();
+    	this.addTaskRemote(text);
   	}
 
-  	async getRemoteData() {
-    	const response = await fetch("https://localhost:5001/api/task/5");
-    	const statusText = response.statusText;
-    	this.state.todos.push({
-      		statusText
-    	})
+  	async addTaskRemote(text) {
+			try{
+				const resp = await this.sdk.addTask(text);
+			} catch(e) {
+				alert(e);
+			}
   	}
 
 	getViewProps() {
