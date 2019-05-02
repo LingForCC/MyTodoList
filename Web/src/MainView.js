@@ -10,7 +10,7 @@ export default ({ descriptors, navigation }) => {
       <Link routeName={"Home"} navigation={navigation}>Home</Link>
       <SceneView
         navigation={descriptor.navigation}
-        component={descriptor.getComponent()}
+        component={descriptor.getComponent()} 
       />
     </div>
   );
