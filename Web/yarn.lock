@@ -4777,10 +4777,10 @@ immer@1.10.0:
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha512-O3sR1/opvCDGLEVcvrGTMtLac8GJ5IwZC4puPrLuRj3l7ICKvkmA0vGuU9OW8mV9WIBRnaxp5GJh9IEAaNOoYg==
 
-immer@^1.12.1:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-1.12.1.tgz#40c6e5b292c00560836c2993bda3a24379d466f5"
-  integrity sha512-3fmKM6ovaqDt0CdC9daXpNi5x/YCYS3i4cwLdTVkhJdk5jrDXoPs7lCm3IqM3yhfSnz4tjjxbRG2CziQ7m8ztg==
+immer@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-3.1.1.tgz#eddd2c28403f494df604992c554eade8d9e5c2bb"
+  integrity sha512-8mH3vMqkvCy0jADoJGJR/+RNsIJOsrVhN1/8NBSLGV+Y4S8bSQ5i2VsDHu+1fm+IFhd8cZFX0shms2nsTBJUbA==
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -9739,20 +9739,20 @@ use@^3.1.0:
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
 
-usm-redux@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/usm-redux/-/usm-redux-1.0.5.tgz#c05a284bb3259dad7ed3b24d94b89bfcbb5b890f"
-  integrity sha512-7sHMLIX7+WgjGj7PyVV/QIsmRCAkUecGjbzfRg1MnzZzRqauD0alBq6d2e+G40Ige9UpX0nOaD+ozP8pxkVxFw==
+usm-redux@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/usm-redux/-/usm-redux-1.0.9.tgz#ccacc85ede958c09c65d0762471425d976241807"
+  integrity sha512-PLoEsDyBPEmmqYAaq4PF3YITmMRo0KdEC81ijhLA4SO2EyI9fJylDMvTEvMvx5H1eYCDjOOI9KwgmXDSAZX0CQ==
   dependencies:
-    immer "^1.12.1"
+    immer "^3.1.1"
     redux "^4.0.1"
     reselect "^4.0.0"
-    usm "^1.0.5"
+    usm "^1.0.9"
 
-usm@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/usm/-/usm-1.0.5.tgz#dd29007607661d4e6600440b80b6577b4d9f0858"
-  integrity sha512-6RNEGS3Dkrlou7ubEl22nLffaJ6gVXTd46OCKIyEBJ3GCqo0+g6/mLbfbhKugX6C4t2zZLQ4WsA4IVe8e850XA==
+usm@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/usm/-/usm-1.0.9.tgz#6f3f5e095a219384d826e2c91bab3a8368e3ccae"
+  integrity sha512-Py9rVA4fcs4yTU1Eyoy+HZ74QyfzXniQ/H+PclukhEInO504mUztcab8aaLnVMuSDWjE/E5StILeoW3K9zBmcg==
 
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
