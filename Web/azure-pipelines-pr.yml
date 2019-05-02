@@ -6,13 +6,14 @@ pool:
 
 steps:
 - task: CmdLine@2
+  displayName: Yarn Install
   inputs:
     script: 'yarn install'
     workingDirectory: '$(Build.SourcesDirectory)/Web'
 
-- task: Npm@1
+- task: CmdLine@2
+  displayName: Test
   inputs:
-    command: 'custom'
-    workingDir: '$(Build.SourcesDirectory)/Web'
-    customCommand: 'run test'
+    script: 'CI=true npm test'
+    workingDirectory: '$(Build.SourcesDirectory)/Web'
 
