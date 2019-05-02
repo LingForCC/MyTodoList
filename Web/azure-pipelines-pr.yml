@@ -1,0 +1,18 @@
+trigger:
+ - master
+
+pool:
+  vmImage: 'ubuntu-16.04' # examples of other options: 'macOS-10.13', 'vs2017-win2016'
+
+steps:
+- task: CmdLine@2
+  inputs:
+    script: 'yarn install'
+    workingDirectory: '$(Build.SourcesDirectory)/Web'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: '$(Build.SourcesDirectory)/Web'
+    customCommand: 'run test'
+
