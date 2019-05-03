@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using API.Models;
+using AutoMapper;
 using Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -11,23 +11,54 @@ namespace API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<string> GetTask()
+        private readonly ITaskRepository _taskRepository;
+        private readonly IMapper _mapper;
+
+        public TaskController(ITaskRepository taskRepository, IMapper mapper)
         {
-            return "Your First Task";
+            _taskRepository = taskRepository;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<GetTaskDetailsModel>> GetTasks()
+        {
+            return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskRepository.FindAll()));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<string> GetTaskId(int id)
+        public ActionResult<GetTaskDetailsModel> GetTaskId(string id)
         {
-            return id.ToString();
+            var task = _taskRepository.FindById(id);
+            if (task == null)
+            {
+                return NotFound("task not found");
+            }
+
+            return _mapper.Map<GetTaskDetailsModel>(task);
         }
 
-        // PUT api/values/5
-        [HttpPost("{id}")]
-        public void AddTask(int id, [FromBody] Core.Task task)
+        [HttpPost]
+        public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            //do nothing for now
+            try
+            {
+                var task = _mapper.Map<Task>(request);
+                task.Id = NUlid.Ulid.NewUlid().ToString();
+
+                _taskRepository.Add(task);
+
+                // should we response the task details?
+                return Ok("task is added successfully");
+            }
+            catch (TaskException taskEx)
+            {
+                return BadRequest(taskEx.Message);
+            }
+            catch
+            {
+                return BadRequest("unexpected error. retry later.");
+            }
         }
 
     }

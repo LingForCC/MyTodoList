@@ -30,7 +30,7 @@ namespace Core
         }
 
         public string Description
-        { 
+        {
             get;
             set;
         }
@@ -40,6 +40,8 @@ namespace Core
             get;
             private set;
         }
+
+        public string Id { get; set; }
 
         #endregion
 
@@ -55,7 +57,7 @@ namespace Core
 
         public void AddDependency(IDependency dependency)
         {
-            if(null != dependency)
+            if (null != dependency)
             {
                 _dependencies.Add(dependency);
             }
@@ -75,9 +77,9 @@ namespace Core
         {
 
         }
-    
 
-        public TaskException(string message, Exception innerException) 
+
+        public TaskException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
