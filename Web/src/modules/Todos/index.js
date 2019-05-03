@@ -15,9 +15,10 @@ export default class Todos extends ViewModule {
 
   	async addTaskRemote(text) {
 			try{
-				const resp = await this.sdk.addTask(text);
+				const respText = await this.sdk.addTask(text);
+				alert(respText);
 			} catch(e) {
-				alert(e);
+				console(e);
 			}
   	}
 

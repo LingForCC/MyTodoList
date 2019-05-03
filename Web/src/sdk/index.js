@@ -10,7 +10,7 @@ export default class MindmapTodoSDK {
 		
 	async addTask(name) {
 		try {
-			await fetch(this.baseUrl + '/task', {
+			const response = await fetch(this.baseUrl + '/task', {
 				method: "POST",
 				body: JSON.stringify(
 					{
@@ -20,6 +20,7 @@ export default class MindmapTodoSDK {
 					"Content-Type": "application/json"
 				}
 			});
+			return response.text();
 		} catch (e) {
 			throw e;
 		}
