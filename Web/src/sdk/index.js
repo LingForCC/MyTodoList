@@ -4,8 +4,7 @@ export default class MindmapTodoSDK {
 	
 	constructor(baseUrl) {
 
-		this.baseUrl = baseUrl ? baseUrl : "https://localhost";
-		this.baseUrl = this.baseUrl + "/api";
+		this.baseUrl = baseUrl + "/api";
        
 	}
 		

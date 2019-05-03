@@ -9,7 +9,7 @@ import TodosView from './components/TodosPanel';
 import { ModuleProvider } from './lib/moduleContext';
 import MindmapTodoSDK from './sdk';
 
-const sdk = new MindmapTodoSDK('');
+const sdk = new MindmapTodoSDK('{baseUrl}');
 const todos = new Todos(sdk);
 const navigation = new Navigation();
 const portal = Portal.create({
