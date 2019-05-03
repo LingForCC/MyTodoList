@@ -7,8 +7,10 @@ import Navigation from './modules/Navigation';
 import MainView from './MainView';
 import TodosView from './components/TodosPanel';
 import { ModuleProvider } from './lib/moduleContext';
+import MindmapTodoSDK from './sdk';
 
-const todos = new Todos();
+const sdk = new MindmapTodoSDK('{baseUrl}');
+const todos = new Todos(sdk);
 const navigation = new Navigation();
 const portal = Portal.create({
   modules: {
