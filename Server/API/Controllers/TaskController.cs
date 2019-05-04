@@ -61,9 +61,8 @@ namespace API.Controllers
             }
             catch
             {
-                return BadRequest("unexpected error. retry later.");
+                return BadRequest("unexpected error. please retry later.");
             }
         }
-
     }
 }
