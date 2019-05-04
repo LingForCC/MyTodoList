@@ -2,9 +2,9 @@ namespace Core.Services
 {
     public interface ITaskService
     {
-        void CreateTask(Task task);
+        void ValidateTaskName(string taskName);
 
-        Task GetTaskById(string taskId);
+        void CreateTask(Task task);
 
         void CompleteTask(string taskId);
 

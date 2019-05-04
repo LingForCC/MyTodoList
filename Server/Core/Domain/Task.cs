@@ -5,6 +5,7 @@ namespace Core
 {
     public class Task
     {
+        public const int MAX_LENGTH_OF_NAME = 300;
 
         #region Private Fields
 
