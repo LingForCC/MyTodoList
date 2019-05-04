@@ -26,7 +26,7 @@ namespace CoreTest
             TaskService taskService = new TaskService(null, null);
 
             // Assert
-            Assert.Throws<TaskException>(() => taskService.ValidateTaskName(task.Name));
+            Assert.Throws<TaskException>(() => task.ValidateTaskName());
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace CoreTest
             TaskService taskService = new TaskService(null, null);
 
             // Assert
-            Assert.Throws<TaskException>(() => taskService.ValidateTaskName(task.Name));
+            Assert.Throws<TaskException>(() => task.ValidateTaskName());
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Core
 {
@@ -68,6 +69,23 @@ namespace Core
             }
         }
 
+        public void ValidateTaskName()
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                throw new TaskException("invalid task name.");
+            }
+
+            if (!Regex.IsMatch(Name, Ultils.Regessions.TASK_NAME_REG))
+            {
+                throw new TaskException("invalid task name.");
+            }
+
+            if (Name.Trim().Length > MAX_LENGTH_OF_NAME)
+            {
+                throw new TaskException("invalid task name.");
+            }
+        }
     }
 
     public class TaskException : Exception

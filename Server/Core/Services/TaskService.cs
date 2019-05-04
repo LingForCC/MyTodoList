@@ -37,29 +37,11 @@ namespace Core.Services
                 throw new ArgumentNullException(nameof(task));
             }
 
-            this.ValidateTaskName(task.Name);
+            task.ValidateTaskName();
 
             this._taskRepository.Add(task);
             this._unitOfWork.Complete();
-        }
-
-        public void ValidateTaskName(string taskName)
-        {
-            if (string.IsNullOrWhiteSpace(taskName))
-            {
-                throw new TaskException("invalid task name.");
-            }
-
-            if (!Regex.IsMatch(taskName, Ultils.Regessions.TASK_NAME_REG))
-            {
-                throw new TaskException("invalid task name.");
-            }
-
-            if (taskName.Trim().Length > Task.MAX_LENGTH_OF_NAME)
-            {
-                throw new TaskException("invalid task name.");
-            }
-        }
+        } 
 
         public void DeleteTask(string taskId)
         {
