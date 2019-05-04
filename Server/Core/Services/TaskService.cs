@@ -45,7 +45,14 @@ namespace Core.Services
 
         public void DeleteTask(string taskId)
         {
-            this._taskRepository.Delete(taskId);
+            var task = _taskRepository.FindById(taskId);
+
+            if (task == null)
+            {
+                throw new TaskException("you're trying to delete an non-existing task.");
+            }
+
+            this._taskRepository.Delete(task);
             this._unitOfWork.Complete();
         }
     }

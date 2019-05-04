@@ -45,24 +45,21 @@ namespace API.Controllers
         [HttpPost]
         public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            try
-            {
-                var task = _mapper.Map<Task>(request);
-                task.Id = NUlid.Ulid.NewUlid().ToString();
+            var task = _mapper.Map<Task>(request);
+            task.Id = NUlid.Ulid.NewUlid().ToString();
 
-                _taskService.CreateTask(task);
+            _taskService.CreateTask(task);
 
-                // should we response the task details?
-                return Ok("task is added successfully");
-            }
-            catch (TaskException taskEx)
-            {
-                return BadRequest(taskEx.Message);
-            }
-            catch
-            {
-                return BadRequest("unexpected error. please retry later.");
-            }
+            // should we response the task details?
+            return Ok("task is added successfully");
+        }
+
+
+        [HttpDelete("{id}")]
+        public ActionResult<GetTaskDetailsModel> DeleteTask(string id)
+        {
+            _taskService.DeleteTask(id);
+            return Ok("task is deleted");
         }
     }
 }
