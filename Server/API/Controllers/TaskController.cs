@@ -1,6 +1,8 @@
 ﻿using API.Models;
 using AutoMapper;
 using Core;
+using Core.Repositories;
+using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,13 +13,15 @@ namespace API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly IRepository<Task> _taskRepository;
         private readonly IMapper _mapper;
+        private readonly ITaskService _taskService;
 
-        public TaskController(ITaskRepository taskRepository, IMapper mapper)
+        public TaskController(IRepository<Task> taskRepository, ITaskService taskService, IMapper mapper)
         {
             _taskRepository = taskRepository;
             _mapper = mapper;
+            _taskService = taskService;
         }
 
         [HttpGet]
@@ -46,7 +50,7 @@ namespace API.Controllers
                 var task = _mapper.Map<Task>(request);
                 task.Id = NUlid.Ulid.NewUlid().ToString();
 
-                _taskRepository.Add(task);
+                _taskService.CreateTask(task);
 
                 // should we response the task details?
                 return Ok("task is added successfully");
