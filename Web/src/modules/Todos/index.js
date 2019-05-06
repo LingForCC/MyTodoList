@@ -18,7 +18,6 @@ export default class Todos extends ViewModule {
 				const respText = await this.sdk.addTask(text);
 				alert(respText);
 			} catch(e) {
-				console(e);
 			}
   	}
 

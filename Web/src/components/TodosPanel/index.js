@@ -1,4 +1,12 @@
 import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+
+const styles = theme => ({
+  input: {
+    margin: theme.spacing.unit,
+  },
+});
 
 export default ({
   addTodo
@@ -6,14 +14,21 @@ export default ({
   const [state, setState] = useState('');
   return (
     <div>
-      <input value={state} onChange={e => setState(e.target.value)}/>
-      <button
+      <Input
+        defaultValue="Hello world"
+        inputProps={{
+          'aria-label': 'Description',
+        }}
+      />
+      <Button 
+        variant="contained"
+        color="primary"
         onClick={() => {
           addTodo(state);
           setState('');
         }}>
         Add
-      </button>
+      </Button>
     </div>
   )
 }
