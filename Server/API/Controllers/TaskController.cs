@@ -3,7 +3,6 @@ using AutoMapper;
 using Core;
 using Core.Repositories;
 using Core.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -29,14 +28,7 @@ namespace API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<GetTaskDetailsModel>> GetTasks()
         {
-            try 
-            { 
-                return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks()));
-            } 
-            catch (Exception e) 
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
+            return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks()));
         }
 
         [HttpGet("{id}")]
@@ -54,33 +46,15 @@ namespace API.Controllers
         [HttpPost]
         public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            try 
-            {
-                _taskService.CreateTask(request.Name);
+            _taskService.CreateTask(request.Name);
 
-                // should we response the task details?
-                return Ok("task is added successfully");
-            }
-            catch(ServiceException e)
-            {
-                if(e.InnerException is TaskException)
-                {
-                    return BadRequest(e.Message);
-                }
-
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-
-            }
-            catch(Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-
+            // should we response the task details?
+            return Ok("task is added successfully");
         }
 
 
         [HttpDelete("{id}")]
-        public ActionResult<GetTaskDetailsModel> DeleteTask(string id)
+        public ActionResult DeleteTask(string id)
         {
             _taskService.DeleteTask(id);
             return Ok("task is deleted");
