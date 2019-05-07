@@ -67,9 +67,15 @@ namespace API.Controllers
                 {
                     return BadRequest(e.Message);
                 }
+
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+
+            }
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
-            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
 
 
