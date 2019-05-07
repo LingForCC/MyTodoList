@@ -36,13 +36,19 @@ namespace Core.Services
             _unitOfWork.Complete();
         }
 
-        public void CreateTask(string name)
+        public Task CreateTask(string name)
         {
-            //TODO: We should encapsulate the function block in a dedicated exception in TaskService
-            Task task = new Task(name);
-
-            this._taskRepository.Add(task);
-            this._unitOfWork.Complete();
+            try
+            {
+                Task task = new Task(name);
+                this._taskRepository.Add(task);
+                this._unitOfWork.Complete();
+                return task;
+            } 
+            catch(Exception e)
+            {
+                throw new ServiceException(nameof(TaskService), "Error Happens when Creating Task", e);
+            }
         } 
 
         public void DeleteTask(string taskId)

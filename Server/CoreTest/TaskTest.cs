@@ -1,6 +1,5 @@
 using Xunit;
 using Core;
-using Core.Services;
 
 namespace CoreTest
 {
