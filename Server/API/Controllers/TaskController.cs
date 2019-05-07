@@ -54,10 +54,7 @@ namespace API.Controllers
         [HttpPost]
         public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            var task = _mapper.Map<Task>(request);
-            task.Id = NUlid.Ulid.NewUlid().ToString();
-
-            _taskService.CreateTask(task);
+            _taskService.CreateTask(request.Name);
 
             // should we response the task details?
             return Ok("task is added successfully");

@@ -6,7 +6,7 @@ namespace Core.Services
     {
         IEnumerable<Task> GetTasks();
 
-        void CreateTask(Task task);
+        void CreateTask(string name);
 
         void CompleteTask(string taskId);
 
