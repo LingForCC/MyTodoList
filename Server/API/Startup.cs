@@ -25,6 +25,7 @@ namespace API
             services.AddMvc(c =>
             {
                 c.Filters.Add(new ModelStateActionFilter());
+                c.Filters.Add(new GlobalExpcetionHandler());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<ApiBehaviorOptions>(options =>

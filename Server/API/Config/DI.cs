@@ -1,4 +1,6 @@
 ﻿using Core;
+using Core.Repositories;
+using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Config
@@ -9,7 +11,12 @@ namespace API.Config
         {
             Config.AutoMapping.Setup(services);
 
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            // TODO:
+            // change to real one in the future
+            services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
+
+            services.AddScoped<ITaskService, TaskService>();
         }
     }
 }

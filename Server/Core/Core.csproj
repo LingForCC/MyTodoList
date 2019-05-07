@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dependency\" />
+    <Compile Remove="Dependency\**" />
+    <EmbeddedResource Remove="Dependency\**" />
+    <None Remove="Dependency\**" />
   </ItemGroup>
 </Project>

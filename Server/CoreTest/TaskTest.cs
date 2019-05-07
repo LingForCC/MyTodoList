@@ -1,5 +1,6 @@
 using Xunit;
 using Core;
+using Core.Services;
 
 namespace CoreTest
 {
@@ -13,53 +14,32 @@ namespace CoreTest
         }
 
         [Fact]
-        public void TestAddTaskSuccesfully()
-        {
-            Task task = new Task()
-            {
-                Id = "00101001",
-                Name = "test task",
-            };
-
-            // TODO:
-            // Use moq
-            ITaskRepository repo = new TaskRepository();
-
-            repo.Add(task);
-
-            Assert.Equal(repo.FindById(task.Id).Name, task.Name);
-        }
-
-        [Fact]
-        public void TestAddTaskWithInvalidEmptyName()
-        {
-            Task task = new Task()
-            {
-                Id = "00101001",
-                Name = " ",
-            };
-
-            // TODO:
-            // Use moq
-            ITaskRepository repo = new TaskRepository();
-
-            Assert.Throws<TaskException>(() => repo.Add(task));
-        }
-
-        [Fact]
         public void TestAddTaskWithInvalidCharacterName()
         {
+            // Arrange
             Task task = new Task()
             {
                 Id = "00101001",
-                Name = "Buy Books !",
+                Name = "Buy Books!",
             };
 
-            // TODO:
-            // Use moq
-            ITaskRepository repo = new TaskRepository();
+            TaskService taskService = new TaskService(null, null);
 
-            Assert.Throws<TaskException>(() => repo.Add(task));
+            // Assert
+            Assert.Throws<TaskException>(() => task.ValidateTaskName());
         }
+
+        [Fact]
+        public void TestAddTaskWithEmptyName()
+        {
+            // Arrange
+            Task task = new Task();
+
+            TaskService taskService = new TaskService(null, null);
+
+            // Assert
+            Assert.Throws<TaskException>(() => task.ValidateTaskName());
+        }
+
     }
 }
