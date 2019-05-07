@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Core.Repositories;
 
@@ -13,6 +14,11 @@ namespace Core.Services
         {
             this._unitOfWork = unitOfWork;
             this._taskRepository = taskRepository;
+        }
+
+        public IEnumerable<Task> GetTasks()
+        {
+            return _taskRepository.FindAll();
         }
 
         public void CompleteTask(string id)
@@ -55,5 +61,7 @@ namespace Core.Services
             this._taskRepository.Delete(task);
             this._unitOfWork.Complete();
         }
+
+       
     }
 }
