@@ -54,10 +54,22 @@ namespace API.Controllers
         [HttpPost]
         public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            _taskService.CreateTask(request.Name);
+            try 
+            {
+                _taskService.CreateTask(request.Name);
 
-            // should we response the task details?
-            return Ok("task is added successfully");
+                // should we response the task details?
+                return Ok("task is added successfully");
+            }
+            catch(ServiceException e)
+            {
+                if(e.InnerException is TaskException)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
 
 
