@@ -6,40 +6,45 @@ namespace CoreTest
 {
     public class TaskTest
     {
+
+        #region New Task with Valid Parameter
+
         [Fact]
-        public void TestAddDedpendencyWithNull()
+        public void TestNewTaskWithValidName()
         {
-            Task task = new Task();
-            Assert.Throws<TaskException>(() => task.AddDependency(null));
+            string name = "Buy Books123";
+            Task task = new Task(name);
+            Assert.Equal(task.Name, name);
+        }
+
+        #endregion
+
+        #region New Task with invalid Name
+
+        [Fact]
+        public void TestNewTaskWithInvalidCharacterInName()
+        {
+            Assert.Throws<TaskException>(() => new Task("Buy Books134!"));
         }
 
         [Fact]
-        public void TestAddTaskWithInvalidCharacterName()
+        public void TestNewTaskWithSpaceInName()
         {
-            // Arrange
-            Task task = new Task()
-            {
-                Id = "00101001",
-                Name = "Buy Books!",
-            };
-
-            TaskService taskService = new TaskService(null, null);
-
-            // Assert
-            Assert.Throws<TaskException>(() => task.ValidateTaskName());
+            Assert.Throws<TaskException>(() => new Task(" "));
         }
 
         [Fact]
-        public void TestAddTaskWithEmptyName()
+        public void TestNewTaskWithEmptyStringAsName()
         {
-            // Arrange
-            Task task = new Task();
-
-            TaskService taskService = new TaskService(null, null);
-
-            // Assert
-            Assert.Throws<TaskException>(() => task.ValidateTaskName());
+            Assert.Throws<TaskException>(() => new Task(""));
         }
 
+        [Fact]
+        public void TestNewTaskWithNullAsName()
+        {
+            Assert.Throws<TaskException>(() => new Task(null));
+        }
+
+        #endregion
     }
 }

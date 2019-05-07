@@ -36,14 +36,10 @@ namespace Core.Services
             _unitOfWork.Complete();
         }
 
-        public void CreateTask(Task task)
+        public void CreateTask(string name)
         {
-            if (task == null)
-            {
-                throw new ArgumentNullException(nameof(task));
-            }
-
-            task.ValidateTaskName();
+            //TODO: We should encapsulate the function block in a dedicated exception in TaskService
+            Task task = new Task(name);
 
             this._taskRepository.Add(task);
             this._unitOfWork.Complete();

@@ -16,8 +16,10 @@ namespace Core
 
         #region Constructor
 
-        public Task()
+        public Task(string name)
         {
+            ValidateName(name);
+            Name = name;
             _dependencies = new List<IDependency>();
         }
 
@@ -69,19 +71,19 @@ namespace Core
             }
         }
 
-        public void ValidateTaskName()
+        private void ValidateName(string name)
         {
-            if (string.IsNullOrWhiteSpace(Name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 throw new TaskException("invalid task name.");
             }
 
-            if (!Regex.IsMatch(Name, Ultils.Regessions.TASK_NAME_REG))
+            if (!Regex.IsMatch(name, Ultils.Regessions.TASK_NAME_REG))
             {
                 throw new TaskException("invalid task name.");
             }
 
-            if (Name.Trim().Length > MAX_LENGTH_OF_NAME)
+            if (name.Trim().Length > MAX_LENGTH_OF_NAME)
             {
                 throw new TaskException("invalid task name.");
             }
