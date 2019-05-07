@@ -3,7 +3,9 @@ using AutoMapper;
 using Core;
 using Core.Repositories;
 using Core.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,7 +29,14 @@ namespace API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<GetTaskDetailsModel>> GetTasks()
         {
-            return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskRepository.FindAll()));
+            try 
+            { 
+                return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks()));
+            } 
+            catch (Exception e) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
         [HttpGet("{id}")]
