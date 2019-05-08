@@ -26,10 +26,7 @@ namespace Core.Services
             var task = _taskRepository.FindById(id);
             if (task == null)
             {
-                throw new TaskException("task not found.")
-                {
-                    StatusCode = 404,
-                };
+                throw new TaskException("task not found.");
             }
 
             task.Complete();
@@ -62,10 +59,7 @@ namespace Core.Services
 
                 if (task == null)
                 {
-                    throw new TaskException("you're trying to delete a non-existing task.")
-                    {
-                        StatusCode = 404,
-                    };
+                    throw new TaskException("you're trying to delete a non-existing task.");
                 }
 
                 this._taskRepository.Delete(task);
@@ -83,10 +77,7 @@ namespace Core.Services
 
             if (task == null)
             {
-                throw new TaskException("task not found.")
-                {
-                    StatusCode = 404,
-                };
+                throw new TaskException("task not found.");
             }
 
             return task;

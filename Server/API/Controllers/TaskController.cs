@@ -41,7 +41,6 @@ namespace API.Controllers
         {
             var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
 
-            // should we response the task details?
             return Ok(taskDetails);
         }
 
