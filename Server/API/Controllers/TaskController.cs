@@ -23,9 +23,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<GetTaskDetailsModel>> GetTasks()
+        public StandardApiResponse<IEnumerable<GetTaskDetailsModel>> GetTasks()
         {
-            return Ok(new StandardApiResponse(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks())));
+            return new StandardApiResponse<IEnumerable<GetTaskDetailsModel>>(
+                _mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks())
+            );
         }
 
         [HttpGet("{id}")]
@@ -37,18 +39,18 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<GetTaskDetailsModel> AddTask([FromBody][Required] PostNewTaskRequestModel request)
+        public StandardApiResponse<GetTaskDetailsModel> AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
             var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
 
-            return Ok(new StandardApiResponse(taskDetails, "task is added successfully."));
+            return new StandardApiResponse<GetTaskDetailsModel>(taskDetails, "task is added successfully.");
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteTask(string id)
         {
             _taskService.DeleteTask(id);
-            return Ok(new StandardApiResponse("task is deleted."));
+            return Ok(new StandardApiResponse<object>("task is deleted."));
         }
     }
 }
