@@ -2,7 +2,7 @@
 {
     public class StandardErrorResponseModel
     {
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
 
         public string ErrorCode { get; set; }
     }

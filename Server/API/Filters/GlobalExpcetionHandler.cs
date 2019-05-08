@@ -20,7 +20,7 @@ namespace API.Filters
 
                 context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
-                    ErrorMessage = exception?.Message,
+                    Message = exception?.Message,
                     ErrorCode = combinedErrorCode,
                 })
                 {
@@ -31,7 +31,7 @@ namespace API.Filters
             {
                 context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
-                    ErrorMessage = "unexpected error. please retry later."
+                    Message = "unexpected error. please retry later."
                 })
                 {
                     StatusCode = StatusCodes.Status500InternalServerError,

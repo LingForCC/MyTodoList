@@ -1,14 +1,12 @@
 ﻿namespace API.Models
 {
-    public class StandardApiResponse<T>
+    public class StandardApiResponse
     {
         public string Message { get; set; }
 
-        public bool Success { get; set; } = true;
+        public object Data { get; set; }
 
-        public T Data { get; set; }
-
-        public StandardApiResponse(T data, string message = null)
+        public StandardApiResponse(object data, string message = null)
         {
             this.Data = data;
             this.Message = message;
