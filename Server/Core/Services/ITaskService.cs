@@ -11,5 +11,7 @@ namespace Core.Services
         void CompleteTask(string taskId);
 
         void DeleteTask(string taskId);
+
+        Task GetTask(string taskId);
     }
 }

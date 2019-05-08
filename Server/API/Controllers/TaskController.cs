@@ -4,7 +4,6 @@ using Core;
 using Core.Repositories;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,13 +13,11 @@ namespace API.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly IRepository<Task> _taskRepository;
         private readonly IMapper _mapper;
         private readonly ITaskService _taskService;
 
         public TaskController(IRepository<Task> taskRepository, ITaskService taskService, IMapper mapper)
         {
-            _taskRepository = taskRepository;
             _mapper = mapper;
             _taskService = taskService;
         }
@@ -34,30 +31,25 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public ActionResult<GetTaskDetailsModel> GetTaskId(string id)
         {
-            var task = _taskRepository.FindById(id);
-            if (task == null)
-            {
-                return NotFound("task not found");
-            }
+            var task = _taskService.GetTask(id);
 
             return _mapper.Map<GetTaskDetailsModel>(task);
         }
 
         [HttpPost]
-        public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
+        public ActionResult<GetTaskDetailsModel> AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            _taskService.CreateTask(request.Name);
+            var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
 
             // should we response the task details?
-            return Ok("task is added successfully");
+            return Ok(taskDetails);
         }
-
 
         [HttpDelete("{id}")]
         public ActionResult DeleteTask(string id)
         {
             _taskService.DeleteTask(id);
-            return Ok("task is deleted");
+            return Ok();
         }
     }
 }

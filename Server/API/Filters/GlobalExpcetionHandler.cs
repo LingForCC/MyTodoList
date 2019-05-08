@@ -13,14 +13,15 @@ namespace API.Filters
         {
             if (context.Exception is DomainException || context.Exception is ServiceException)
             {
-                var exception = context.Exception.InnerException as DomainException ?? context.Exception as DomainException;
+                var exception = context.Exception.InnerException ?? context.Exception;
 
-                var msg = exception.Message;
+                var svcExp = context.Exception as ServiceException;
+                string combinedErrorCode = svcExp?.ToString();
 
                 context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
-                    Message = msg,
-                    ErrorCode = exception.ErrorCode,
+                    ErrorMessage = exception?.Message,
+                    ErrorCode = combinedErrorCode,
                 })
                 {
                     StatusCode = StatusCodes.Status400BadRequest,
@@ -30,7 +31,7 @@ namespace API.Filters
             {
                 context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
-                    Message = "unexpected error. please retry later."
+                    ErrorMessage = "unexpected error. please retry later."
                 })
                 {
                     StatusCode = StatusCodes.Status500InternalServerError,

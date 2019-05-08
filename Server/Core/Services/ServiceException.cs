@@ -22,5 +22,10 @@ namespace Core.Services
             get;
             private set;
         }
+
+        public override string ToString()
+        {
+            return $"{ServiceName} - {Message}";
+        }
     }
 }

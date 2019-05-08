@@ -21,6 +21,7 @@ namespace Core
         {
             ValidateName(name);
             Name = name;
+            Id = Guid.NewGuid().ToString();
             _dependencies = new List<IDependency>();
         }
 

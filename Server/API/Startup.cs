@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using API.Middlewares;
 
 namespace API
 {
@@ -75,8 +74,6 @@ namespace API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyTodoList API V1");
             });
 
-
-            app.UseJsonApiWrapper("1.0", "test");
             app.UseMvc();
         }
     }
