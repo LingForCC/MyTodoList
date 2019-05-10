@@ -1,4 +1,7 @@
-﻿using Core;
+﻿using API.Models;
+using Core.Exceptions;
+using Core.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -8,22 +11,30 @@ namespace API.Filters
     {
         public override void OnException(ExceptionContext context)
         {
-            if (context.Exception is TaskException)
+            if (context.Exception is DomainException || context.Exception is ServiceException)
             {
-                var exception = context.Exception as TaskException;
+                var exception = context.Exception.InnerException ?? context.Exception;
 
-                var response = exception.Message;
+                var svcExp = context.Exception as ServiceException;
+                string combinedErrorCode = svcExp?.ToString();
 
-                context.Result = new ObjectResult(response)
+                context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
-                    StatusCode = 400,
+                    Message = exception?.Message,
+                    ErrorCode = combinedErrorCode,
+                })
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
                 };
             }
             else
             {
-                context.Result = new ObjectResult("unexpected error. please retry later.")
+                context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
-                    StatusCode = 400,
+                    Message = "unexpected error. please retry later."
+                })
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
                 };
             }
         }

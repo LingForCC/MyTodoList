@@ -36,5 +36,16 @@ namespace APITest
             }
         }
 
+        [Fact]
+        public async void TestDeleteNonExistingTaskReturnsNotFoundStatus()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                var response = await client.DeleteAsync("/api/task/non-existing-task-id");
+
+                Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            }
+        }
+
     }
 }

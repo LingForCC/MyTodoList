@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -20,6 +21,7 @@ namespace Core
         {
             ValidateName(name);
             Name = name;
+            Id = Guid.NewGuid().ToString();
             _dependencies = new List<IDependency>();
         }
 
@@ -87,22 +89,6 @@ namespace Core
             {
                 throw new TaskException("invalid task name.");
             }
-        }
-    }
-
-    public class TaskException : Exception
-    {
-
-        public TaskException(string message)
-            : this(message, null)
-        {
-
-        }
-
-
-        public TaskException(string message, Exception innerException)
-            : base(message, innerException)
-        {
         }
     }
 }

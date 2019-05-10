@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using Core.Exceptions;
 using Core.Repositories;
 
 namespace Core.Services
@@ -44,26 +44,43 @@ namespace Core.Services
                 this._taskRepository.Add(task);
                 this._unitOfWork.Complete();
                 return task;
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw new ServiceException(nameof(TaskService), "Error Happens when Creating Task", e);
             }
-        } 
+        }
 
         public void DeleteTask(string taskId)
+        {
+            try
+            {
+                var task = _taskRepository.FindById(taskId);
+
+                if (task == null)
+                {
+                    throw new TaskException("you're trying to delete a non-existing task.");
+                }
+
+                this._taskRepository.Delete(task);
+                this._unitOfWork.Complete();
+            }
+            catch (Exception e)
+            {
+                throw new ServiceException(nameof(TaskService), "Error Happens when Deleting Task", e);
+            }
+        }
+
+        public Task GetTask(string taskId)
         {
             var task = _taskRepository.FindById(taskId);
 
             if (task == null)
             {
-                throw new TaskException("you're trying to delete an non-existing task.");
+                throw new TaskException("task not found.");
             }
 
-            this._taskRepository.Delete(task);
-            this._unitOfWork.Complete();
+            return task;
         }
-
-       
     }
 }

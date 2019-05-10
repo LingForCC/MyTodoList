@@ -1,5 +1,6 @@
 using Xunit;
 using Core;
+using Core.Exceptions;
 
 namespace CoreTest
 {
