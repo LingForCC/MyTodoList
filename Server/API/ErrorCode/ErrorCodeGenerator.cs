@@ -5,7 +5,7 @@ namespace API.ErrorCode
 {
     public interface IErrorCodeGenerator
     {
-        string ExceptionFullName
+        string ExceptionTypeFullName
         {
             get;
         }
@@ -18,12 +18,15 @@ namespace API.ErrorCode
         where T : ServiceException
     {
 
-        public string ExceptionFullName
+        AbsErrorCodeGenerator()
         {
-            get
-            {
-                return typeof(T).FullName;
-            }
+            ExceptionTypeFullName = typeof(T).FullName;
+        }
+
+        public string ExceptionTypeFullName
+        {
+            get;
+            private set;
         }
 
         public string GetErrorCode(ServiceException exception)
@@ -33,11 +36,12 @@ namespace API.ErrorCode
                 return GetErrorCodeInternal(exception as T);
             }
 
-            throw new Exception();
+            throw new ErrorCodeGeneratorException("An exception of type " +
+                exception.GetType().FullName + " is sent to ErrorCodeGenerator " +
+                	"for " + ExceptionTypeFullName);
         }
 
         public abstract string GetErrorCodeInternal(T exception);
-
     }
 
 }
