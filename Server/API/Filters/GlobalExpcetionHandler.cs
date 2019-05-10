@@ -16,7 +16,7 @@ namespace API.Filters
                 var exception = context.Exception.InnerException ?? context.Exception;
 
                 var svcExp = context.Exception as ServiceException;
-                string combinedErrorCode = svcExp?.ToString() ?? (context.Exception as DomainException)?.ErrorCode;
+                string combinedErrorCode = svcExp?.ToString();
 
                 context.Result = new ObjectResult(new StandardErrorResponseModel
                 {
