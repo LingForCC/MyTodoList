@@ -34,7 +34,6 @@ namespace API.ErrorCode
         {
             if(null == exception)
             {
-
                 throw new ErrorCodeGeneratorException("Input exception can not be null!");
             }
 

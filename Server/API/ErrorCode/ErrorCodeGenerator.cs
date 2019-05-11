@@ -18,19 +18,21 @@ namespace API.ErrorCode
         where T : ServiceException
     {
 
-        AbsErrorCodeGenerator()
-        {
-            ExceptionTypeFullName = typeof(T).FullName;
-        }
-
         public string ExceptionTypeFullName
         {
-            get;
-            private set;
+            get
+            {
+                return typeof(T).FullName;
+            }
         }
 
         public string GetErrorCode(ServiceException exception)
         {
+            if(null == exception)
+            {
+                throw new ErrorCodeGeneratorException("Input exception can not be null.");
+            }
+
             if (exception is T)
             {
                 return GetErrorCodeInternal(exception as T);
