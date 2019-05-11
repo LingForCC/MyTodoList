@@ -11,21 +11,28 @@ const styles = theme => ({
 export default ({
   addTodo
 }) =>  {
-  const [state, setState] = useState('');
+  const [state, setState] = useState({
+    taskName: ''
+  });
   return (
     <div>
       <Input
-        defaultValue="Hello world"
+        value = {state.taskName}
         inputProps={{
           'aria-label': 'Description',
         }}
+        onChange = {e => setState({
+          taskName : e.target.value
+        })}
       />
       <Button 
         variant="contained"
         color="primary"
         onClick={() => {
-          addTodo(state);
-          setState('');
+          addTodo(state.taskName);
+          setState({
+            taskName: ''
+          });
         }}>
         Add
       </Button>
