@@ -10,12 +10,12 @@ namespace API.ErrorCode
             get;
         }
 
-        string GetErrorCode(ServiceException exception);
+        string GetErrorCode(Exception exception);
     }
 
 
     public abstract class AbsErrorCodeGenerator<T> : IErrorCodeGenerator
-        where T : ServiceException
+        where T : Exception
     {
 
         public string ExceptionTypeFullName
@@ -26,7 +26,7 @@ namespace API.ErrorCode
             }
         }
 
-        public string GetErrorCode(ServiceException exception)
+        public string GetErrorCode(Exception exception)
         {
             if(null == exception)
             {

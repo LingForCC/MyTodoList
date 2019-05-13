@@ -112,43 +112,16 @@ namespace APITest.ErrorCodeGenerator
 
     #region Mock Class for Testing
 
-    public class TestServiceException1 : ServiceException
+    public class TestServiceException1 : Exception
     {
-        public TestServiceException1() 
-            : this("TestService", null)
-        {
 
-        }
-
-        public TestServiceException1(string serviceName, string message)
-            : base(serviceName, message)
-        {
-        }
-
-        public TestServiceException1(string serviceName, string message, Exception innerException)
-            : base(serviceName, message, innerException)
-        {
-        }
     }
 
 
-    public class TestServiceException2 : ServiceException
+    public class TestServiceException2 : Exception
     {
-        public TestServiceException2()
-            : this("TestService", null)
-        {
 
-        }
 
-        public TestServiceException2(string serviceName, string message)
-            : base(serviceName, message)
-        {
-        }
-
-        public TestServiceException2(string serviceName, string message, Exception innerException)
-            : base(serviceName, message, innerException)
-        {
-        }
     }
 
 

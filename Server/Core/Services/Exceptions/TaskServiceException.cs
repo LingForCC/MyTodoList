@@ -19,6 +19,10 @@ namespace Core.Services.Exceptions
 
     public class TaskServiceCreationException : TaskServiceException
     {
+
+        public const string INVALID_TASK_NAME = "Task name is invalid!";
+        public const string GENERIC_ERROR = "Error Happens when Creating Task";
+
         public TaskServiceCreationException(string message) 
             : base(message)
         {
@@ -27,6 +31,7 @@ namespace Core.Services.Exceptions
         public TaskServiceCreationException(string message, Exception innerException) 
             : base(message, innerException)
         {
+
         }
     }
 }

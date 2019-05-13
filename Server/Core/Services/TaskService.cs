@@ -48,11 +48,11 @@ namespace Core.Services
             }
             catch (InvalidNameTaskException e)
             {
-                throw new TaskServiceCreationException("Error Happens when Creating Task", e);
+                throw new TaskServiceCreationException(TaskServiceCreationException.INVALID_TASK_NAME, e);
             }
             catch(Exception e)
             {
-                throw new TaskServiceException("Error Happens when Creating Task", e);
+                throw new TaskServiceCreationException(TaskServiceCreationException.GENERIC_ERROR, e);
             }
         }
 

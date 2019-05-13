@@ -1,9 +1,13 @@
-﻿using API.Models;
+﻿using API.ErrorCode;
+using API.Models;
 using AutoMapper;
 using Core;
 using Core.Repositories;
 using Core.Services;
+using Core.Services.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,11 +19,14 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ITaskService _taskService;
+        private readonly IErrorCodeGeneratorManager _errorCodeGeneratorManager;
 
-        public TaskController(IRepository<Task> taskRepository, ITaskService taskService, IMapper mapper)
+        public TaskController(IRepository<Task> taskRepository, ITaskService taskService, 
+            IMapper mapper, IErrorCodeGeneratorManager errorCodeGeneratorManager)
         {
             _mapper = mapper;
             _taskService = taskService;
+            _errorCodeGeneratorManager = errorCodeGeneratorManager;
         }
 
         [HttpGet]
@@ -39,11 +46,27 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public StandardApiResponse<GetTaskDetailsModel> AddTask([FromBody][Required] PostNewTaskRequestModel request)
+        public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
-
-            return new StandardApiResponse<GetTaskDetailsModel>(taskDetails, "task is added successfully.");
+            try {
+                var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
+                return Ok(taskDetails);
+            }
+            catch (TaskServiceCreationException e)
+            {
+                return BadRequest(new
+                {
+                    ErrorCode = _errorCodeGeneratorManager.GetErrorCode(e),
+                    e.Message
+                });
+            }
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new {
+                    ErrorCode = _errorCodeGeneratorManager.GetErrorCode(e),
+                    Message = "Service Not Available"
+                });
+            }
         }
 
         [HttpDelete("{id}")]

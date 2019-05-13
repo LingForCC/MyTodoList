@@ -4,7 +4,7 @@ using Core.Services;
 
 namespace API.ErrorCode
 {
-    public class ErrorCodeGeneratorManager
+    public class ErrorCodeGeneratorManager : IErrorCodeGeneratorManager
     {
 
         private readonly Dictionary<string, IErrorCodeGenerator> _errorCodeGenerators;
@@ -30,7 +30,7 @@ namespace API.ErrorCode
             _errorCodeGenerators.Add(errorCodeGenerator.ExceptionTypeFullName, errorCodeGenerator);
         }
 
-        public string GetErrorCode(ServiceException exception)
+        public string GetErrorCode(Exception exception)
         {
             if(null == exception)
             {

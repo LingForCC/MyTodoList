@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace APITest
@@ -13,7 +14,7 @@ namespace APITest
         {
             using (var client = new TestClientProvider().Client)
             {
-                var param = Newtonsoft.Json.JsonConvert.SerializeObject(new { Name = "abc 123" });
+                var param = JsonConvert.SerializeObject(new { Name = "abc 123" });
                 HttpContent contentPost = new StringContent(param, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("/api/task", contentPost);
@@ -33,6 +34,10 @@ namespace APITest
                 var response = await client.PostAsync("/api/task", contentPost);
 
                 Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+                var respContentString = await response.Content.ReadAsStringAsync();
+                dynamic respContent = JsonConvert.DeserializeObject(respContentString);
+                Assert.Equal("TSC-101", (string)(respContent.errorCode));
             }
         }
 
