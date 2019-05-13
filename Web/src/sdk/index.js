@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import { Exception } from 'handlebars';
 
 export default class MindmapTodoSDK {
 
@@ -19,7 +20,13 @@ export default class MindmapTodoSDK {
 					"Content-Type": "application/json"
 				}
 			});
-			return response.json();
+			var resp = await response.json();
+			if(response.status === 200) {
+				return resp;
+			}
+			else {
+				throw new Exception(resp.message);
+			}
 		} catch (e) {
 			throw e;
 		}
