@@ -24,25 +24,25 @@ namespace CoreTest
         [Fact]
         public void TestNewTaskWithInvalidCharacterInName()
         {
-            Assert.Throws<TaskException>(() => new Task("Buy Books134!"));
+            Assert.Throws<InvalidNameTaskException>(() => new Task("Buy Books134!"));
         }
 
         [Fact]
         public void TestNewTaskWithSpaceInName()
         {
-            Assert.Throws<TaskException>(() => new Task(" "));
+            Assert.Throws<InvalidNameTaskException>(() => new Task(" "));
         }
 
         [Fact]
         public void TestNewTaskWithEmptyStringAsName()
         {
-            Assert.Throws<TaskException>(() => new Task(""));
+            Assert.Throws<InvalidNameTaskException>(() => new Task(""));
         }
 
         [Fact]
         public void TestNewTaskWithNullAsName()
         {
-            Assert.Throws<TaskException>(() => new Task(null));
+            Assert.Throws<InvalidNameTaskException>(() => new Task(null));
         }
 
         #endregion

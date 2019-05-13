@@ -77,17 +77,17 @@ namespace Core
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new TaskException("invalid task name.");
+                throw new InvalidNameTaskException();
             }
 
             if (!Regex.IsMatch(name, Ultils.Regessions.TASK_NAME_REG))
             {
-                throw new TaskException("invalid task name.");
+                throw new InvalidNameTaskException();
             }
 
             if (name.Trim().Length > MAX_LENGTH_OF_NAME)
             {
-                throw new TaskException("invalid task name.");
+                throw new InvalidNameTaskException();
             }
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Core.Exceptions;
 using Core.Repositories;
+using Core.Services.Exceptions;
 
 namespace Core.Services
 {
@@ -45,9 +46,13 @@ namespace Core.Services
                 this._unitOfWork.Complete();
                 return task;
             }
-            catch (Exception e)
+            catch (InvalidNameTaskException e)
             {
-                throw new ServiceException(nameof(TaskService), "Error Happens when Creating Task", e);
+                throw new TaskServiceCreationException("Error Happens when Creating Task", e);
+            }
+            catch(Exception e)
+            {
+                throw new TaskServiceException("Error Happens when Creating Task", e);
             }
         }
 
@@ -83,4 +88,6 @@ namespace Core.Services
             return task;
         }
     }
+
+
 }

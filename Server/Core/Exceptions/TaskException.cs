@@ -15,4 +15,13 @@ namespace Core.Exceptions
         {
         }
     }
+
+    public class InvalidNameTaskException : TaskException
+    {
+        public InvalidNameTaskException()
+            : base("Invalid task name.")
+        {
+
+        }
+    }
 }

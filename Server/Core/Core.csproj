@@ -9,4 +9,7 @@
     <EmbeddedResource Remove="Dependency\**" />
     <None Remove="Dependency\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\Exceptions\" />
+  </ItemGroup>
 </Project>

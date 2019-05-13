@@ -2,6 +2,7 @@
 using Core;
 using Core.Services;
 using System.Linq;
+using Core.Services.Exceptions;
 
 namespace CoreTest
 {
@@ -33,7 +34,7 @@ namespace CoreTest
             IUnitOfWork unitOfWork = new InMemoryUnitOfWork();
             TaskService ts = new TaskService(unitOfWork, 
                 unitOfWork.GetRepository<Task>());
-            Assert.Throws<ServiceException>(() => ts.CreateTask(toAddTaskName));
+            Assert.Throws<TaskServiceCreationException>(() => ts.CreateTask(toAddTaskName));
         }
 
         #endregion
