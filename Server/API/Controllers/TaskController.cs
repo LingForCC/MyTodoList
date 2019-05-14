@@ -30,11 +30,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public StandardApiResponse<IEnumerable<GetTaskDetailsModel>> GetTasks()
+        public ActionResult GetTasks()
         {
-            return new StandardApiResponse<IEnumerable<GetTaskDetailsModel>>(
-                _mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks())
-            );
+            try
+            {
+                return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks()));
+            }
+            catch(Exception e)
+            {
+                return GetGenericError(e);
+            }
         }
 
         [HttpGet("{id}")]
@@ -48,7 +53,8 @@ namespace API.Controllers
         [HttpPost]
         public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
-            try {
+            try 
+            {
                 var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
                 return Ok(taskDetails);
             }
@@ -62,10 +68,7 @@ namespace API.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new {
-                    ErrorCode = _errorCodeGeneratorManager.GetErrorCode(e),
-                    Message = "Service Not Available"
-                });
+                return GetGenericError(e);
             }
         }
 
@@ -74,6 +77,15 @@ namespace API.Controllers
         {
             _taskService.DeleteTask(id);
             return Ok(new StandardApiResponse<object>("task is deleted."));
+        }
+
+        private ActionResult GetGenericError(Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new
+            {
+                ErrorCode = _errorCodeGeneratorManager.GetErrorCode(e),
+                Message = "Service Not Available"
+            });
         }
     }
 
