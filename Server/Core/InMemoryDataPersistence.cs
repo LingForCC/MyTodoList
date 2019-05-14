@@ -8,6 +8,7 @@ namespace Core
 {
     public class InMemoryUnitOfWork : IUnitOfWork
     {
+
         public void Complete()
         {
             // nothing to do.
