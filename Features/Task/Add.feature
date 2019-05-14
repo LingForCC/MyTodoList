@@ -1,13 +1,14 @@
 Feature: Add Task
     Scenario Outline: Add Task 
     When user tries to add a task with <name>
-    Then user should see <message>
+    Then user should see <action>
+    Then user should see 
     
     Examples:
-    | name  | message           |
-    | space | invalid task name |
-    | ab12  | task is added successfully |
-    | !@#$% | invalid task name |
+    | name  | action           |
+    | space | see the alert of 'invalid task name' |
+    | ab12  | the task in the list |
+    | !@#$% | see the alert of 'invalid task name' |
 
 
     Scenario Outline: Add Task failed with unexpected error
