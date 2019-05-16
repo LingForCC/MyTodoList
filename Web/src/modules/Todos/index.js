@@ -14,13 +14,14 @@ export default class Todos extends ViewModule {
 
 	async init(){
 		const tasks = await this.sdk.getAllTasks();
+		console.log(tasks);
 		this.addTaskAction(tasks);
 	}
 
 	async add(text) {
 		try {
 			const task = await this.sdk.addTask(text);
-			this.addTaskAction(task);
+			this.addTaskAction([task]);
 		} catch (e) {
 			alert(e.message);
 			console.log(e);
@@ -29,7 +30,8 @@ export default class Todos extends ViewModule {
 
 	@action
 	addTaskAction(data, state){
-		state.tasks.push(data);
+		console.log(data);
+		state.tasks.push(...data);
 	}
 
 	getViewProps() {

@@ -29,9 +29,13 @@ const portal = Portal.create({
 });
 const App = portal.createApp();
 
+portal.persistor.purge();
+
 ReactDOM.render(
   <Provider store={portal.store}>
-    <PersistGate loading={null} persistor={portal.persistor}>
+    <PersistGate loading={null} 
+      onBeforeLift={() => todos.init()} 
+      persistor={portal.persistor}>
       <ModuleProvider module={portal}>
         <App />
       </ModuleProvider>
@@ -40,4 +44,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-todos.init();
+
