@@ -9,6 +9,26 @@ export default class MindmapTodoSDK {
 
 	}
 
+	async getAllTasks() {
+		try {
+			const response = await fetch(this.baseUrl + '/task', {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+			var resp = await response.json();
+			if(response.status === 200) {
+				return resp;
+			}
+			else {
+				throw new Exception(resp.message);
+			}
+		} catch (e) {
+			throw e;
+		}
+	}
+
 	async addTask(name) {
 		try {
 			const response = await fetch(this.baseUrl + '/task', {

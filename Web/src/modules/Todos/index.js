@@ -12,10 +12,15 @@ export default class Todos extends ViewModule {
 		this.sdk = sdk;
 	}
 
+	async init(){
+		const tasks = await this.sdk.getAllTasks();
+		this.addTaskAction(tasks);
+	}
+
 	async add(text) {
 		try {
-			const resp = await this.sdk.addTask(text);
-			this.addTaskAction(resp);
+			const task = await this.sdk.addTask(text);
+			this.addTaskAction(task);
 		} catch (e) {
 			alert(e.message);
 			console.log(e);
