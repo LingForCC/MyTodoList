@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Repositories
@@ -8,7 +9,7 @@ namespace Core.Repositories
     public class TaskRepository : BaseRepository, ITaskRepository
     {
 
-        private DbSet<Task> _tasks;
+        private readonly DbSet<Task> _tasks;
 
         public TaskRepository(DbContext dbContext)
             :base(dbContext)
@@ -16,10 +17,10 @@ namespace Core.Repositories
             _tasks = dbContext.Set<Task>();
         }
 
-        public async void AddTaskAsync(Task task)
+        public async Task<int> AddTaskAsync(Task task)
         {
             await _tasks.AddAsync(task);
-            await DbContext.SaveChangesAsync();
+            return await DbContext.SaveChangesAsync();
         }
 
         #region ITaskRepository Implementation

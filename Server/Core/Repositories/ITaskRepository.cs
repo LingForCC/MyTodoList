@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 namespace Core.Repositories
 {
     public interface ITaskRepository : IRepository<Task>
     {
-        void AddTaskAsync(Task task);
+        Task<int> AddTaskAsync(Task task);
     }
 }
