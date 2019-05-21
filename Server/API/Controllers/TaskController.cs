@@ -21,7 +21,7 @@ namespace API.Controllers
         private readonly ITaskService _taskService;
         private readonly IErrorCodeGeneratorManager _errorCodeGeneratorManager;
 
-        public TaskController(IRepository<Task> taskRepository, ITaskService taskService, 
+        public TaskController(ITaskService taskService, 
             IMapper mapper, IErrorCodeGeneratorManager errorCodeGeneratorManager)
         {
             _mapper = mapper;
@@ -51,11 +51,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTask([FromBody][Required] PostNewTaskRequestModel request)
+        public async System.Threading.Tasks.Task<IActionResult> AddTask([FromBody][Required] PostNewTaskRequestModel request)
         {
             try 
             {
-                var taskDetails = _mapper.Map<GetTaskDetailsModel>(_taskService.CreateTask(request.Name));
+                var taskDetails = _mapper.Map<GetTaskDetailsModel>(await _taskService.CreateTask(request.Name));
                 return Ok(taskDetails);
             }
             catch (TaskServiceCreationException e)

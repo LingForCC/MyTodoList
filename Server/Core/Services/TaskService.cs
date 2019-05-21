@@ -10,11 +10,14 @@ namespace Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Task> _taskRepository;
+        private readonly ITaskRepository _taskRepository2;
 
-        public TaskService(IUnitOfWork unitOfWork, IRepository<Task> taskRepository)
+        public TaskService(IUnitOfWork unitOfWork, IRepository<Task> taskRepository,
+            ITaskRepository taskRepository2)
         {
             this._unitOfWork = unitOfWork;
             this._taskRepository = taskRepository;
+            _taskRepository2 = taskRepository2;
         }
 
         public IEnumerable<Task> GetTasks()
@@ -37,13 +40,17 @@ namespace Core.Services
             _unitOfWork.Complete();
         }
 
-        public Task CreateTask(string name)
+        public async System.Threading.Tasks.Task<Task> CreateTask(string name)
         {
             try
             {
                 Task task = new Task(name);
+                await  _taskRepository2.AddTaskAsync(task);
+
+                //To be removed
                 this._taskRepository.Add(task);
                 this._unitOfWork.Complete();
+
                 return task;
             }
             catch (InvalidNameTaskException e)

@@ -12,7 +12,7 @@ namespace Core.Repositories
         private readonly DbSet<Task> _tasks;
 
 
-        public TaskRepository(DbContext dbContext)
+        public TaskRepository(TaskDbContext dbContext)
             :base(dbContext)
         {
             _tasks = dbContext.Set<Task>();

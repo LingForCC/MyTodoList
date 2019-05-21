@@ -19,7 +19,7 @@ namespace API.Config
 
             services.AddSingleton<IErrorCodeGeneratorManager>(GetErrorCodeGeneratorManager());
 
-
+            services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
         }
 

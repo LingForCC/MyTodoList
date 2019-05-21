@@ -14,7 +14,7 @@ namespace CoreTest
         public async void TestAddTaskAsync()
         {
             var options = new DbContextOptionsBuilder<TaskDbContext>()
-                .UseInMemoryDatabase("db_test")
+                .UseInMemoryDatabase("TestAddTaskAsync")
                 .Options;
             TaskDbContext rc = new TaskDbContext(options);
 
@@ -33,7 +33,7 @@ namespace CoreTest
         public async void TestAddTaskAsyncThrowException()
         {
             var options = new DbContextOptionsBuilder<TaskDbContext>()
-                .UseInMemoryDatabase("db_test")
+                .UseInMemoryDatabase("TestAddTaskAsyncThrowException")
                 .Options;
             FakeTaskDbContext1 rc = new FakeTaskDbContext1(options);
 

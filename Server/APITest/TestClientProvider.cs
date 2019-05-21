@@ -10,7 +10,9 @@ namespace APITest
 
         public TestClientProvider()
         {
-            var server = new TestServer(new WebHostBuilder().UseStartup<API.Startup>());
+            var server = new TestServer(new WebHostBuilder()
+                .UseEnvironment("Development")
+                .UseStartup<API.Startup>());
             Client = server.CreateClient();
         }
     }
