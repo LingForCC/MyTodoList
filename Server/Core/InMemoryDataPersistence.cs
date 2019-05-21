@@ -24,6 +24,8 @@ namespace Core
     {
         private static readonly List<T> _store = new List<T>();
 
+        public string Name => throw new NotImplementedException();
+
         public void Add(T entity)
         {
             _store.Add(entity);

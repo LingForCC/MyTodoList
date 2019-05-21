@@ -11,6 +11,7 @@ namespace Core.Repositories
 
         private readonly DbSet<Task> _tasks;
 
+
         public TaskRepository(DbContext dbContext)
             :base(dbContext)
         {
@@ -19,9 +20,26 @@ namespace Core.Repositories
 
         public async Task<int> AddTaskAsync(Task task)
         {
-            await _tasks.AddAsync(task);
-            return await DbContext.SaveChangesAsync();
+            try
+            {
+                await _tasks.AddAsync(task);
+                return await DbContext.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                throw new RepositoryException(Name, e.Message, e);
+            }
+
         }
+
+        public string Name 
+        { 
+            get
+            {
+                return "TaskRepository";
+            }
+        }
+
 
         #region ITaskRepository Implementation
 

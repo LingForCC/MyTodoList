@@ -4,20 +4,23 @@ using System.Linq.Expressions;
 
 namespace Core.Repositories
 {
-  public interface IRepository<T> where T : class
-  {
-      T FindById(string id);
+    public interface IRepository<T> where T : class
+    {
 
-      IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
+        string Name { get; }
 
-      IEnumerable<T> FindAll();
-      
-      void Add(T entity);
+        T FindById(string id);
 
-      void Delete(T entity);
+        IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
 
-      void Delete(string id);
+        IEnumerable<T> FindAll();
+          
+        void Add(T entity);
 
-      void Update(T entity);
-  }
+        void Delete(T entity);
+
+        void Delete(string id);
+
+        void Update(T entity);
+    }
 }

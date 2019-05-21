@@ -3,6 +3,7 @@ using System.Linq;
 using Core;
 using Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Xunit;
 
 namespace CoreTest
@@ -27,5 +28,36 @@ namespace CoreTest
 
             Assert.True(addedTask.Count() == 1);
         }
+
+        [Fact]
+        public async void TestAddTaskAsyncThrowException()
+        {
+            var options = new DbContextOptionsBuilder<TaskDbContext>()
+                .UseInMemoryDatabase("db_test")
+                .Options;
+            FakeTaskDbContext rc = new FakeTaskDbContext(options);
+
+            TaskRepository tr = new TaskRepository(rc);
+            Task task = new Task("abc 123");
+            await Assert.ThrowsAsync<RepositoryException>(
+                async () => await tr.AddTaskAsync(task)
+            );
+        }
     }
+
+    public class FakeTaskDbContext : TaskDbContext
+    {
+        public FakeTaskDbContext(DbContextOptions<TaskDbContext> options) 
+            : base(options)
+        {
+        }
+
+        public override System.Threading.Tasks.Task<int>
+            SaveChangesAsync(System.Threading.CancellationToken cancellationToken)
+        {
+            throw new Exception("Fake Error");
+        }
+    }
+
+
 }

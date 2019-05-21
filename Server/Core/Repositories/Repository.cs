@@ -7,7 +7,9 @@ namespace Core.Repositories
 {
   public class Repository<T> : IRepository<T> where T : class
   {
-    public void Add(T entity)
+        public string Name => throw new NotImplementedException();
+
+        public void Add(T entity)
     {
       throw new NotImplementedException();
     }
