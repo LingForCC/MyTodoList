@@ -18,12 +18,18 @@ namespace Core.Repositories
             _tasks = dbContext.Set<Task>();
         }
 
-        public async Task<int> AddTaskAsync(Task task)
+        public async Task<Core.Task> AddTaskAsync(Task task)
         {
             try
             {
                 await _tasks.AddAsync(task);
-                return await DbContext.SaveChangesAsync();
+                var result = await DbContext.SaveChangesAsync();
+                if(result != 1)
+                {
+                    throw new RepositoryException(Name, 
+                        "Unexpected error happens without throwing exception when adding task");
+                }
+                return task;
             }
             catch(Exception e)
             {
