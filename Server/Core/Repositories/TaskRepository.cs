@@ -38,6 +38,18 @@ namespace Core.Repositories
 
         }
 
+        public async System.Threading.Tasks.Task<Task> FindByIdAsync(string id) 
+        {
+            try
+            {
+                return await _tasks.SingleOrDefaultAsync( t => t.Id == id);
+            }
+            catch(Exception e)
+            {
+                throw new RepositoryException(Name, e.Message, e);
+            }
+        }
+
         public string Name 
         { 
             get

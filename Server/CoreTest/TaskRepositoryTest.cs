@@ -44,6 +44,34 @@ namespace CoreTest
             );
         }
 
+        [Fact]
+        public async void TestFindTaskById() {
+            var options = new DbContextOptionsBuilder<TaskDbContext>()
+                .UseInMemoryDatabase("TestFindTaskById")
+                .Options;
+            TaskDbContext rc = new TaskDbContext(options);
+
+            TaskRepository tr = new TaskRepository(rc);
+            Task task = new Task("abc 123");
+            string id = task.Id;
+            await tr.AddTaskAsync(task);
+            Task foundTask = await tr.FindByIdAsync(id);
+            Assert.True(foundTask != null && foundTask.Name == task.Name && foundTask.Id == task.Id);
+        }
+
+        [Fact]
+        public async void TestFindTaskByIdReturnNull() {
+            var options = new DbContextOptionsBuilder<TaskDbContext>()
+                .UseInMemoryDatabase("TestFindTaskByIdReturnNull")
+                .Options;
+            TaskDbContext rc = new TaskDbContext(options);
+
+            TaskRepository tr = new TaskRepository(rc);
+            string id = Guid.NewGuid().ToString();
+            Task foundTask = await tr.FindByIdAsync(id);
+            Assert.True(foundTask == null);
+        }
+
     }
 
     public class FakeTaskDbContext1 : TaskDbContext
