@@ -12,6 +12,9 @@ namespace Core.Services
 
         void DeleteTask(string taskId);
 
-        Task GetTask(string taskId);
+        System.Threading.Tasks.Task<Task> GetTaskByIdAsync(string taskId);
+
+        System.Threading.Tasks.Task<IEnumerable<Task>> GetTasksAsync();
+
     }
 }

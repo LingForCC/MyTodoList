@@ -46,11 +46,6 @@ namespace Core.Services
             {
                 Task task = new Task(name);
                 await  _taskRepository2.AddTaskAsync(task);
-
-                //To be removed
-                this._taskRepository.Add(task);
-                this._unitOfWork.Complete();
-
                 return task;
             }
             catch (InvalidNameTaskException e)
@@ -83,16 +78,30 @@ namespace Core.Services
             }
         }
 
-        public Task GetTask(string taskId)
+        public async System.Threading.Tasks.Task<Task> GetTaskByIdAsync(string taskId)
         {
-            var task = _taskRepository.FindById(taskId);
-
-            if (task == null)
-            {
-                throw new TaskException("task not found.");
+            if(string.IsNullOrEmpty(taskId)) {
+                throw new TaskServiceQueryException(TaskServiceQueryException.EMPTY_TASK_ID, null);
             }
+            
+            try {
+                return await _taskRepository2.FindByIdAsync(taskId);
+            }
+            catch(Exception e) {
+                throw new TaskServiceQueryException(TaskServiceQueryException.GENERIC_ERROR, e);
+            }
+        }
 
-            return task;
+        public async System.Threading.Tasks.Task<IEnumerable<Task>> GetTasksAsync()
+        {
+            try 
+            {
+                return await _taskRepository2.FindAllAsync();
+            }
+            catch(Exception e) 
+            {
+                throw new TaskServiceQueryException(TaskServiceQueryException.GENERIC_ERROR, e);
+            }
         }
     }
 

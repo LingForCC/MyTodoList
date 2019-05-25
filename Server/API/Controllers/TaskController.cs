@@ -30,11 +30,12 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetTasks()
+        public async System.Threading.Tasks.Task<ActionResult> GetTasks()
         {
             try
             {
-                return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(_taskService.GetTasks()));
+                var tasks = await _taskService.GetTasksAsync();
+                return Ok(_mapper.Map<IEnumerable<GetTaskDetailsModel>>(tasks));
             }
             catch(Exception e)
             {
@@ -43,11 +44,23 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GetTaskDetailsModel> GetTaskId(string id)
+        public async System.Threading.Tasks.Task<ActionResult<GetTaskDetailsModel>> t(string id)
         {
-            var task = _taskService.GetTask(id);
-
-            return _mapper.Map<GetTaskDetailsModel>(task);
+            try
+            {
+                var task = await _taskService.GetTaskByIdAsync(id);
+                return _mapper.Map<GetTaskDetailsModel>(task);
+            }
+            catch(TaskServiceQueryException e) 
+            {
+                //TODO: Implement the Error Code Generator here
+                return GetGenericError(e);
+            }
+            catch(Exception e)
+            {
+                return GetGenericError(e);
+            }
+            
         }
 
         [HttpPost]

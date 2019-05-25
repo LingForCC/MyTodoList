@@ -50,6 +50,19 @@ namespace Core.Repositories
             }
         }
 
+        public async  System.Threading.Tasks.Task<IEnumerable<Task>> FindAllAsync() 
+        {
+            try
+            {
+                return await _tasks.ToListAsync();
+            }
+            catch(Exception e)
+            {
+                throw new RepositoryException(Name, e.Message, e);
+            }
+
+        }
+
         public string Name 
         { 
             get

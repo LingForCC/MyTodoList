@@ -34,4 +34,22 @@ namespace Core.Services.Exceptions
 
         }
     }
+
+    public class TaskServiceQueryException : TaskServiceException
+    {
+
+        public const string EMPTY_TASK_ID = "Task Id can not be null or empty!";
+        public const string GENERIC_ERROR = "Error happens when querying tasks!";
+
+        public TaskServiceQueryException(string message) 
+            : base(message)
+        {
+        }
+
+        public TaskServiceQueryException(string message, Exception innerException) 
+            : base(message, innerException)
+        {
+
+        }
+    }
 }

@@ -98,15 +98,63 @@ namespace CoreTest
                 });
 
             IRepository<Task> repository = mockRepository.Object;
-            repository.Add(task1);
-            repository.Add(task2);
 
             TaskService ts = new TaskService(unitOfWork, repository, tr);
 
-            IEnumerable<Task> tasks = ts.GetTasks();
+            IEnumerable<Task> tasks = await ts.GetTasksAsync();
             Assert.Equal(2, tasks.Count());
             Assert.Contains(tasks, task => task.Name == "abc 123");
             Assert.Contains(tasks, task => task.Name == "abc 456");
+        }
+
+        [Fact]
+        public async void TestGetTaskById() {
+
+            string toAddTaskName = "abc 123";
+            Task task = new Task(toAddTaskName);
+
+            TaskDbContext rc = GetTaskDbContext("TestGetTaskById");
+            TaskRepository tr = GetTaskRepository(rc);
+
+            //to remove
+            Mock <IUnitOfWork> mockUnitOfWork = new Mock<IUnitOfWork>();
+            List<Task> taskRepository = new List<Task>();
+            Mock<IRepository<Task>> mockRepository = new Mock<IRepository<Task>>();
+            mockRepository.Setup(m => m.Add(It.IsAny<Task>()))
+                .Callback((Task t) => 
+                { 
+                    taskRepository.Add(t); 
+                });
+            IUnitOfWork unitOfWork = mockUnitOfWork.Object;
+            IRepository<Task> repository = mockRepository.Object;
+            TaskService ts = new TaskService(unitOfWork, repository, tr);
+
+            await tr.AddTaskAsync(task);
+            var foundTask = await ts.GetTaskByIdAsync(task.Id);
+            Assert.True(foundTask != null && foundTask.Id == task.Id);
+        }
+
+        [Fact]
+        public async void TestGetTaskByIdThrowExceptionWhenIdIsNullOrEmpty() {
+
+            TaskDbContext rc = GetTaskDbContext("TestGetTaskByIdThrowExceptionWhenIdIsNullOrEmpty");
+            TaskRepository tr = GetTaskRepository(rc);
+
+            //to remove
+            Mock <IUnitOfWork> mockUnitOfWork = new Mock<IUnitOfWork>();
+            List<Task> taskRepository = new List<Task>();
+            Mock<IRepository<Task>> mockRepository = new Mock<IRepository<Task>>();
+            mockRepository.Setup(m => m.Add(It.IsAny<Task>()))
+                .Callback((Task t) => 
+                { 
+                    taskRepository.Add(t); 
+                });
+            IUnitOfWork unitOfWork = mockUnitOfWork.Object;
+            IRepository<Task> repository = mockRepository.Object;
+            TaskService ts = new TaskService(unitOfWork, repository, tr);
+
+            await Assert.ThrowsAsync<TaskServiceQueryException>(async () => await ts.GetTaskByIdAsync(null));
+            await Assert.ThrowsAsync<TaskServiceQueryException>(async () => await ts.GetTaskByIdAsync(string.Empty));
         }
 
         #endregion
@@ -114,7 +162,7 @@ namespace CoreTest
         private TaskDbContext GetTaskDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<TaskDbContext>()
-                .UseInMemoryDatabase("db_test")
+                .UseInMemoryDatabase(dbName)
                 .Options;
             return new TaskDbContext(options);
         }
