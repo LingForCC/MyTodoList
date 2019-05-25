@@ -25,6 +25,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureCommonServices(services);
+            services.AddDbContext<TaskDbContext>((options => options.UseInMemoryDatabase("MyTodoList")));
         }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
