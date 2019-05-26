@@ -7,6 +7,11 @@ namespace Core.Repositories
     {
         public BaseRepository(DbContext dbContext)
         {
+            if (dbContext == null)
+            {
+                throw new ArgumentNullException(nameof(dbContext));
+            }
+
             DbContext = dbContext;
         }
 

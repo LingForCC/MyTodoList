@@ -3,15 +3,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Core
 {
     public class InMemoryUnitOfWork : IUnitOfWork
     {
 
-        public void Complete()
+        public int Complete()
         {
             // nothing to do.
+            return 1;
+        }
+
+        public Task<int> CompleteAsync()
+        {
+            // nothing to do.
+            return System.Threading.Tasks.Task.FromResult(1);
         }
 
         public IRepository<T> GetRepository<T>() where T : class
@@ -69,5 +77,20 @@ namespace Core
         {
             // nothing to do.
         }
+
+    public Task<T> FindByIdAsync(string id)
+    {
+      throw new NotImplementedException();
     }
+
+    public Task<T> AddAsync(T entity)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<T>> FindAllAsync()
+    {
+      throw new NotImplementedException();
+    }
+  }
 }

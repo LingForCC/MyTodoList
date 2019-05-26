@@ -6,6 +6,8 @@ namespace Core
     {
         IRepository<T> GetRepository<T>() where T : class;
 
-        void Complete();
+        int Complete();
+
+        System.Threading.Tasks.Task<int> CompleteAsync();
     }
 }

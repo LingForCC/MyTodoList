@@ -14,12 +14,12 @@ namespace API.Config
 
             // TODO:
             // change to real one in the future
-            services.AddScoped<IUnitOfWork, InMemoryUnitOfWork>();
-            services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
+            services.AddScoped<Microsoft.EntityFrameworkCore.DbContext, TaskDbContext>();
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(EFBaseRepository<>));
 
             services.AddSingleton<IErrorCodeGeneratorManager>(GetErrorCodeGeneratorManager());
 
-            services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
         }
 

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Core.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> : IRepositoryAsync<T> where T : class
     {
 
         string Name { get; }
@@ -22,5 +23,14 @@ namespace Core.Repositories
         void Delete(string id);
 
         void Update(T entity);
+    }
+
+    public interface IRepositoryAsync<T> where T: class {
+
+        Task<T> FindByIdAsync(string id);
+
+        Task<T> AddAsync(T entity);
+
+        Task<IEnumerable<T>> FindAllAsync();
     }
 }
