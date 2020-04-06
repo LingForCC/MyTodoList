@@ -10,14 +10,11 @@ namespace Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Task> _taskRepository;
-        private readonly ITaskRepository _taskRepository2;
 
-        public TaskService(IUnitOfWork unitOfWork, IRepository<Task> taskRepository,
-            ITaskRepository taskRepository2)
+        public TaskService(IUnitOfWork unitOfWork, IRepository<Task> taskRepository)
         {
             this._unitOfWork = unitOfWork;
             this._taskRepository = taskRepository;
-            _taskRepository2 = taskRepository2;
         }
 
         public IEnumerable<Task> GetTasks()
@@ -45,7 +42,14 @@ namespace Core.Services
             try
             {
                 Task task = new Task(name);
-                await  _taskRepository2.AddTaskAsync(task);
+                await  _taskRepository.AddAsync(task);
+                var result = await this._unitOfWork.CompleteAsync();
+                if(result != 1)
+                {
+                    throw new RepositoryException(_taskRepository.Name, 
+                        "Unexpected error happens without throwing exception when adding task");
+                }
+
                 return task;
             }
             catch (InvalidNameTaskException e)
@@ -85,7 +89,7 @@ namespace Core.Services
             }
             
             try {
-                return await _taskRepository2.FindByIdAsync(taskId);
+                return await _taskRepository.FindByIdAsync(taskId);
             }
             catch(Exception e) {
                 throw new TaskServiceQueryException(TaskServiceQueryException.GENERIC_ERROR, e);
@@ -96,7 +100,7 @@ namespace Core.Services
         {
             try 
             {
-                return await _taskRepository2.FindAllAsync();
+                return await _taskRepository.FindAllAsync();
             }
             catch(Exception e) 
             {

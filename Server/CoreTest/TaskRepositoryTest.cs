@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Core;
 using Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Moq;
 using Xunit;
 
@@ -13,35 +16,26 @@ namespace CoreTest
         [Fact]
         public async void TestAddTaskAsync()
         {
-            var options = new DbContextOptionsBuilder<TaskDbContext>()
-                .UseInMemoryDatabase("TestAddTaskAsync")
-                .Options;
-            TaskDbContext rc = new TaskDbContext(options);
+            // Arrange
+            var task = new Task("abc 123");
 
-            TaskRepository tr = new TaskRepository(rc);
-            Task task = new Task("abc 123");
-            await tr.AddTaskAsync(task);
+            var dbSetMock = new Mock<DbSet<Task>>();
 
-            var addedTask = await rc.Set<Task>()
-                .Where(t => t.Name == "abc 123")
-                .ToListAsync();
+            var contextMock = new Mock<TaskDbContext>(TestConfigs.GetDbOptions("TestAddTaskAsync"));
+            contextMock.Setup(it => it.Set<Task>())
+                .Returns(() => dbSetMock.Object);
 
-            Assert.True(addedTask.Count() == 1);
-        }
+            var context = contextMock.Object;
 
-        [Fact]
-        public async void TestAddTaskAsyncThrowException()
-        {
-            var options = new DbContextOptionsBuilder<TaskDbContext>()
-                .UseInMemoryDatabase("TestAddTaskAsyncThrowException")
-                .Options;
-            FakeTaskDbContext1 rc = new FakeTaskDbContext1(options);
+            dbSetMock.Setup(m => m.AddAsync(It.IsAny<Task>(), CancellationToken.None))
+                .ReturnsAsync(() => context.Entry<Task>(task));
 
-            TaskRepository tr = new TaskRepository(rc);
-            Task task = new Task("abc 123");
-            await Assert.ThrowsAsync<RepositoryException>(
-                async () => await tr.AddTaskAsync(task)
-            );
+            // Act
+            var repository = new EFBaseRepository<Task>(context);
+            await repository.AddAsync(task);
+
+            //Assert
+            dbSetMock.Verify(x => x.AddAsync(It.Is<Task>(y => y == task), CancellationToken.None));
         }
 
         [Fact]
@@ -51,10 +45,11 @@ namespace CoreTest
                 .Options;
             TaskDbContext rc = new TaskDbContext(options);
 
-            TaskRepository tr = new TaskRepository(rc);
+            var tr = new EFBaseRepository<Task>(rc);
             Task task = new Task("abc 123");
             string id = task.Id;
-            await tr.AddTaskAsync(task);
+            await tr.AddAsync(task);
+            await rc.SaveChangesAsync();
             Task foundTask = await tr.FindByIdAsync(id);
             Assert.True(foundTask != null && foundTask.Name == task.Name && foundTask.Id == task.Id);
         }
@@ -66,7 +61,7 @@ namespace CoreTest
                 .Options;
             TaskDbContext rc = new TaskDbContext(options);
 
-            TaskRepository tr = new TaskRepository(rc);
+            var tr = new EFBaseRepository<Task>(rc);
             string id = Guid.NewGuid().ToString();
             Task foundTask = await tr.FindByIdAsync(id);
             Assert.True(foundTask == null);
@@ -79,14 +74,16 @@ namespace CoreTest
                 .Options;
             TaskDbContext rc = new TaskDbContext(options);
 
-            TaskRepository tr = new TaskRepository(rc);
+            var tr = new EFBaseRepository<Task>(rc);
             Task task = new Task("abc 123");
             string id1 = task.Id;
-            await tr.AddTaskAsync(task);
+            await tr.AddAsync(task);
 
             task =new Task("abc 456");
             string id2 = task.Id;
-            await tr.AddTaskAsync(task);
+            await tr.AddAsync(task);
+
+            await rc.SaveChangesAsync();
 
             var foundTasks = await tr.FindAllAsync();
             Assert.NotNull(foundTasks.SingleOrDefault(t => t.Id == id1));
